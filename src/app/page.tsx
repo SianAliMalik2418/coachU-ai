@@ -1,10 +1,9 @@
-import { Button } from "@/components/ui/button";
+"use client";
 
 export default function Home() {
   return (
-    <div>
-      <h1 className="text-red-500">Hello World</h1>
-      <Button>Click me</Button>
+    <div className="flex flex-col gap-2">
+      <h1>Hello world</h1>
     </div>
   );
 }

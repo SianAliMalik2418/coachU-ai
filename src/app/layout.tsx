@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
+import Navbar from "@/components/shared/navbar/components/Navbar";
+import { AuthProvider } from "@/contexts/AuthProvider";
+import { ReactQueryProvider } from "@/contexts/QueryClientProvider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const getPoppins = Poppins({
+  variable: "--font-poppins",
+  weight: ["100", "200", "300", "400", "500", "600"],
   subsets: ["latin"],
 });
 
@@ -24,10 +24,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={` flex flex-col ${getPoppins.variable} antialiased`}>
+        <AuthProvider>
+          <ReactQueryProvider>
+            <Navbar />
+            {children}
+            <Toaster />
+          </ReactQueryProvider>
+        </AuthProvider>
       </body>
     </html>
   );
