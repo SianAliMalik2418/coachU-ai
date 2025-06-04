@@ -5,8 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/contexts/AuthProvider";
 import { ReactQueryProvider } from "@/contexts/QueryClientProvider";
 
-const getPoppins = Poppins({
-  variable: "--font-poppins",
+const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600"],
   subsets: ["latin"],
 });
@@ -23,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={` flex flex-col ${getPoppins.variable} antialiased`}>
+      <body className={` flex flex-col ${poppins.className} antialiased`}>
         <AuthProvider>
           <ReactQueryProvider>
             {children}
