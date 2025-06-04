@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import Navbar from "@/components/shared/navbar/components/Navbar";
 import { AuthProvider } from "@/contexts/AuthProvider";
 import { ReactQueryProvider } from "@/contexts/QueryClientProvider";
 
@@ -19,15 +18,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body className={` flex flex-col ${getPoppins.variable} antialiased`}>
         <AuthProvider>
           <ReactQueryProvider>
-            <Navbar />
             {children}
             <Toaster />
           </ReactQueryProvider>

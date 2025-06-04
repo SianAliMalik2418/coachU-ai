@@ -2,9 +2,9 @@
 
 import { Session } from "@supabase/supabase-js";
 import { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "../../supabase-client";
 import { Loader2 } from "lucide-react";
 import { User } from "@/types/types";
+import { createClient } from "@/lib/supabase/client";
 
 type AuthContextType = {
   user: User | null;
@@ -19,30 +19,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const getSession = async () => {
-    const { data, error } = await supabase.auth.getSession();
-    if (error) console.error(error);
+  const supabase = createClient();
 
-    setSession(data.session);
+  const getUser = async () => {
+    const { data, error } = await supabase.auth.getUser();
+    if (error) return setIsLoading(false);
 
-    if (data.session?.user) {
+    if (data.user) {
       const { data: existingUser } = await supabase
         .from("users")
         .select("*")
-        .eq("user_id", data.session.user.id)
+        .eq("user_id", data.user.id)
         .single();
 
       if (!existingUser) {
         await supabase.from("users").insert({
-          user_id: data.session.user.id,
-          email: data.session.user.email,
-          name: data.session.user.user_metadata.name,
-          profile_picture: data.session.user.user_metadata.picture,
+          user_id: data.user.id,
+          email: data.user.email,
+          name: data.user.user_metadata.name,
+          profile_picture: data.user.user_metadata.picture,
         });
-      }
-
-      if (error) {
-        console.error("Failed to fetch user from users table:", error.message);
       }
 
       setUser(existingUser ?? null);
@@ -54,7 +50,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    getSession();
+    getUser();
 
     const {
       data: { subscription },

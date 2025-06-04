@@ -1,8 +1,19 @@
-"use client";
+import Navbar from "@/components/shared/navbar/components/Navbar";
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) redirect("/auth/sign-in");
+
   return (
     <div className="flex flex-col gap-2">
+      <Navbar />
       <h1>Hello world</h1>
     </div>
   );
