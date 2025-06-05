@@ -10,20 +10,10 @@ import {
   SidebarHeader,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
-import { Bot, CreditCard, LogOut, Sparkles, Star, Video } from "lucide-react";
+import { Bot, Star, Video } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import DashboardUserButton from "./DashboardUserButton";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import LogoutButton from "@/components/shared/navbar/components/LogoutButton";
 
 const DashboardSidebar = () => {
   const firstSection = [
@@ -51,10 +41,12 @@ const DashboardSidebar = () => {
 
   return (
     <Sidebar>
-      <SidebarHeader className="py-5">
-        <Logo />
+      <SidebarHeader className="md:py-[0.85rem] py-5  px-0">
+        <Link href={"/"}>
+          <Logo />
+        </Link>
       </SidebarHeader>
-      <div className="px-3">
+      <div className="px-">
         <Separator />
       </div>
 
@@ -100,53 +92,10 @@ const DashboardSidebar = () => {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="py-8 px-3">
-        <DashboardSideBarFooter />
+        <DashboardUserButton />
       </SidebarFooter>
     </Sidebar>
   );
 };
 
 export default DashboardSidebar;
-
-const DashboardSideBarFooter = () => {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <DashboardUserButton />
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent
-        className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-        side={"right"}
-        align="end"
-        sideOffset={4}
-      >
-        <DropdownMenuLabel className="p-0 font-normal">
-          <DashboardUserButton
-            className="bg-transparent "
-            shouldShowAvatar={false}
-          />
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Sparkles />
-            Upgrade to Pro
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <CreditCard />
-            Billing
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <LogOut />
-            <LogoutButton />
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-};
