@@ -1,4 +1,5 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
+import DashboardNavbar from "@/modules/dashboard/ui/components/DashboardNavbar";
 import DashboardSidebar from "@/modules/dashboard/ui/components/DashboardSidebar";
 
 export default function DashboardLayout({
@@ -7,11 +8,12 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center">
-      <SidebarProvider>
-        <DashboardSidebar />
-      </SidebarProvider>
-      {children}
-    </div>
+    <SidebarProvider>
+      <DashboardSidebar />
+      <div className="flex flex-col w-full  ">
+        <DashboardNavbar />
+        <main className="w-full px-3 py-3">{children}</main>
+      </div>
+    </SidebarProvider>
   );
 }

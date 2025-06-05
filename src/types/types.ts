@@ -2,6 +2,7 @@ export type User = {
   id: string;
   name: string;
   profile_picture: string;
-  isSubscribed: boolean;
+  is_subscribed: boolean;
   email: string;
+  created_at: string;
 };

@@ -11,7 +11,7 @@ export default async function Home() {
   if (!user) redirect("/auth/sign-in");
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 ">
       <h1>Hello world</h1>
     </div>
   );
