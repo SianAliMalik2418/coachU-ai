@@ -12,7 +12,7 @@ export default function DashboardLayout({
       <DashboardSidebar />
       <div className="flex flex-col w-full  ">
         <DashboardNavbar />
-        <main className="w-full px-3 py-3">{children}</main>
+        <main className="w-full px-5 py-7 lg:px-10 lg:py-6">{children}</main>
       </div>
     </SidebarProvider>
   );

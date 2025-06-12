@@ -25,8 +25,8 @@ export default function RootLayout({
       <body className={` flex flex-col ${poppins.className} antialiased`}>
         <AuthProvider>
           <ReactQueryProvider>
-            {children}
             <Toaster />
+            {children}
           </ReactQueryProvider>
         </AuthProvider>
       </body>

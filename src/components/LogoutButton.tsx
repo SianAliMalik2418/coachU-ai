@@ -9,8 +9,7 @@ const LogoutButton = () => {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    // router.push("/auth/sign-in");
-    window.location.href = "/sign-in";
+    router.push("/sign-in");
   };
 
   return <p onClick={handleLogout}>Log out</p>;

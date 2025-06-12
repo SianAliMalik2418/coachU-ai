@@ -1,8 +1,5 @@
-export type User = {
-  id: string;
-  name: string;
-  profile_picture: string;
-  is_subscribed: boolean;
-  email: string;
-  created_at: string;
-};
+import { Database } from "./supabase";
+
+export type User = Database["public"]["Tables"]["users"]["Row"];
+
+export type Agent = Database["public"]["Tables"]["agents"]["Row"];

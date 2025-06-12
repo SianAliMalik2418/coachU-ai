@@ -22,7 +22,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import LogoutButton from "@/components/shared/navbar/components/LogoutButton";
+import LogoutButton from "@/components/LogoutButton";
 import { User } from "@/types/types";
 import { Button } from "@/components/ui/button";
 
@@ -122,7 +122,7 @@ const UserDetails = ({
 
         <div className="flex flex-col items-start justify-start gap-0.5">
           <p className="text-sm truncate">{user?.name}</p>
-          <p className="text-xs tracking-tight">{user?.email}</p>
+          <p className="text-xs tracking-tight truncate">{user?.email}</p>
         </div>
       </div>
     </div>
