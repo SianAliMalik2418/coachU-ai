@@ -24,7 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { createAgent } from "../../actions/actions";
+import { createAgent } from "../../actions";
 
 const AgentDialog = ({
   open,

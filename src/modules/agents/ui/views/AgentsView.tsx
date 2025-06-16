@@ -1,16 +1,19 @@
-import AgentsListHeader from "../components/AgentsListHeader";
-import { getAgents } from "../../actions/actions";
-import AgentsList from "../components/AgentsList";
+// import AgentsListHeader from "../components/AgentsListHeader";
+// import AgentsList from "../components/AgentsList";
+// import AgentsSearch from "../components/AgentsSearch";
+// import { Agent } from "../../types";
 
-const AgentsView = async () => {
-  const agents = await getAgents();
+// const AgentsView = async ({ agents }: { agents: Agent[] }) => {
+//   return (
+//     <>
+//       <AgentsListHeader />
 
-  return (
-    <>
-      <AgentsListHeader />
-      <AgentsList agents={agents} />
-    </>
-  );
-};
+//       <div className="mt-7">
+//         <AgentsSearch />
+//       </div>
 
-export default AgentsView;
+//     </>
+//   );
+// };
+
+// export default AgentsView;

@@ -2,13 +2,31 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { z } from "zod";
-import { agentSchema } from "../schema";
+import { agentSchema } from "./schema";
 import { revalidatePath } from "next/cache";
-import { TablesInsert } from "@/types/supabase";
+import { AgentInsertType, GetAgentsType } from "./types";
 
-export const getAgents = async () => {
+export const getAgents = async ({ search }: GetAgentsType) => {
   const supabase = await createClient();
-  const { data, error } = await supabase.from("agents").select("*");
+
+  // Making sure user is logged in
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) throw new Error("Unauthorized");
+
+  let query = supabase
+    .from("agents")
+    .select("*")
+    .order("created_at", { ascending: false });
+  // .range((currentPage - 1) * PAGE_SIZE, PAGE_SIZE * currentPage - 1);
+
+  if (search && search.trim() !== "") {
+    query = query.ilike("name", `%${search}%`);
+  }
+
+  const { data, error } = await query;
 
   if (error)
     throw new Error(
@@ -18,7 +36,29 @@ export const getAgents = async () => {
   return data;
 };
 
-type AgentInsertType = TablesInsert<"agents">;
+export const getAgent = async ({ agentId }: { agentId: number }) => {
+  const supabase = await createClient();
+
+  // Making sure user is logged in
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) throw new Error("Unauthorized");
+
+  const { data, error } = await supabase
+    .from("agents")
+    .select("*")
+    .eq("id", agentId)
+    .single();
+
+  if (error)
+    throw new Error(
+      error?.message ?? "Something went wrong while fetching agents"
+    );
+
+  return data;
+};
 
 export const createAgent = async (values: z.infer<typeof agentSchema>) => {
   try {
