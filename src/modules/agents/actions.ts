@@ -54,7 +54,7 @@ export const getAgent = async ({ agentId }: { agentId: number }) => {
 
   if (error)
     throw new Error(
-      error?.message ?? "Something went wrong while fetching agents"
+      error?.message ?? "Something went wrong while fetching agent"
     );
 
   return data;
@@ -93,6 +93,78 @@ export const createAgent = async (values: z.infer<typeof agentSchema>) => {
     // Handling success
     revalidatePath("/agents");
     return { success: "Agent created successfully" };
+  } catch (error) {
+    console.log(error);
+    return {
+      error: "Something went wrong",
+    };
+  }
+};
+
+export const updateAgent = async (
+  values: z.infer<typeof agentSchema>,
+  agentId: number
+) => {
+  try {
+    const supabase = await createClient();
+
+    // Making sure user is logged in
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) return { error: "Unauthorized" };
+
+    const { error } = await supabase
+      .from("agents")
+      .update(values)
+      .eq("id", agentId)
+      .eq("user", user.id);
+
+    // Handling Error
+    if (error)
+      return {
+        error: error.message ?? "Something went wrong while updating agent",
+      };
+
+    // Handling success
+    revalidatePath("/agents");
+    revalidatePath(`/agents/${agentId}`);
+    return { success: "Agent updated successfully" };
+  } catch (error) {
+    console.log(error);
+    return {
+      error: "Something went wrong",
+    };
+  }
+};
+
+export const deleteAgent = async (agentId: number) => {
+  try {
+    const supabase = await createClient();
+
+    // Making sure user is logged in
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) return { error: "Unauthorized" };
+
+    const { error } = await supabase
+      .from("agents")
+      .delete()
+      .eq("id", agentId)
+      .eq("user", user.id);
+
+    // Handling Error
+    if (error)
+      return {
+        error: error.message ?? "Something went wrong while deleting agent",
+      };
+
+    // Handling success
+
+    return { success: "Agent deleted successfully" };
   } catch (error) {
     console.log(error);
     return {

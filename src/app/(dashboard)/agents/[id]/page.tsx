@@ -3,7 +3,8 @@ import AgentView from "@/modules/agents/ui/views/AgentView";
 import React from "react";
 
 const Page = async ({ params }: { params: { id: number } }) => {
-  const agentId = params.id;
+  const pageParams = await params;
+  const agentId = pageParams.id;
 
   const agent = (await getAgent({ agentId })) ?? {};
 

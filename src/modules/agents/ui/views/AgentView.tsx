@@ -6,13 +6,49 @@ import AgentDropdown from "../components/AgentDropdown";
 import BreadCrumbs from "../components/BreadCrumbs";
 import { VideoIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useState, useTransition } from "react";
+import AgentDialog from "../components/AgentDialog";
+import { deleteAgent } from "../../actions";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const AgentView = ({ agent }: { agent: Agent }) => {
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  const router = useRouter();
+
+  const handleAgentDelete = async () => {
+    startTransition(async () => {
+      const { success, error } = await deleteAgent(agent.id);
+      if (error) {
+        toast.error(error);
+      } else {
+        toast.success(success);
+        router.push("/agents");
+      }
+    });
+  };
+
   return (
     <div className="space-y-5">
+      {isEditDialogOpen && (
+        <AgentDialog
+          open={isEditDialogOpen}
+          onOpenChange={setIsEditDialogOpen}
+          closeDialog={() => setIsEditDialogOpen(false)}
+          data={agent}
+        />
+      )}
       <div className="flex items-center justify-between">
         <BreadCrumbs agentId={agent.id} agentName={agent.name} />
-        <AgentDropdown onEdit={() => {}} onRemove={() => {}} />
+        <AgentDropdown
+          onEdit={() => {
+            setIsEditDialogOpen(true);
+          }}
+          onRemove={handleAgentDelete}
+          isDeleting={isPending}
+        />
       </div>
       <AgentDetails agent={agent} />
     </div>

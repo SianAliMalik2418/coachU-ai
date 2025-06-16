@@ -1,4 +1,4 @@
-import { Database, TablesInsert } from "@/types/supabase";
+import { Database, TablesInsert, TablesUpdate } from "@/types/supabase";
 
 export type Agent = Database["public"]["Tables"]["agents"]["Row"];
 
@@ -8,3 +8,4 @@ export type GetAgentsType = {
 };
 
 export type AgentInsertType = TablesInsert<"agents">;
+export type AgentUpdateType = TablesUpdate<"agents">;

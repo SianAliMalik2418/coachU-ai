@@ -6,14 +6,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { EllipsisVertical, Pencil, Trash } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { EllipsisVertical, Loader2, Pencil, Trash } from "lucide-react";
 
 const AgentDropdown = ({
   onEdit,
   onRemove,
+  isDeleting,
 }: {
   onEdit: () => void;
   onRemove: () => void;
+  isDeleting: boolean;
 }) => {
   return (
     <DropdownMenu modal={false}>
@@ -25,9 +28,13 @@ const AgentDropdown = ({
           <Pencil />
           <p>Edit</p>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={onRemove}>
+        <DropdownMenuItem
+          className={cn(isDeleting && "opacity-70")}
+          onClick={onRemove}
+        >
           <Trash />
           <p>Delete</p>
+          {isDeleting && <Loader2 className="size-4 animate-spin" />}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
